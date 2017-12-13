@@ -10,9 +10,10 @@ import android.widget.Button;
 import com.alfionte.smarthome.api.Connection;
 import com.alfionte.smarthome.api.Scan;
 import com.alfionte.smarthome.model.NotifyModel;
-import com.alfionte.smarthome.model.commands.Command;
-import com.alfionte.smarthome.model.commands.CommandToggle;
+import com.alfionte.smarthome.model.commands.CommandSetRGBColor;
+import com.alfionte.smarthome.model.commands.SpeedEffect;
 import com.alfionte.smarthome.parser.NotifyParser;
+import com.alfionte.smarthome.utils.ColorUtils;
 
 import java.net.InetSocketAddress;
 
@@ -20,8 +21,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-
-import static com.alfionte.smarthome.model.NotifyModel.KEY_ID;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,13 +44,11 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public Object apply(NotifyModel notifyModel) throws Exception {
 
-                                final String id = notifyModel.getNotifyMap().get(KEY_ID).substring(2);
-                                final Integer yeeId = Integer.parseInt(id, 16);
-
-                                final Command toggle = new CommandToggle(1);
+                                final int rgbColor = ColorUtils.toYeeRGBColor("green");
+                                final CommandSetRGBColor command = new CommandSetRGBColor(1, 444, SpeedEffect.SMOOTH, 300);
                                 final Connection connection = new Connection();
                                 final InetSocketAddress address = notifyModel.getAddress();
-                                return connection.sendCommand(address.getHostName(), address.getPort(), toggle).subscribe();
+                                return connection.sendCommand(address.getHostName(), address.getPort(), command).subscribe();
                             }
                         })
                         .subscribe(new Consumer<Object>() {

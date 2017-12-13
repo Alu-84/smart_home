@@ -36,7 +36,7 @@ public class NotifyParser implements Function<DatagramPacket, NotifyModel> {
                 responseMap.put(key, value);
 
             } catch (IndexOutOfBoundsException e) {
-                Log.d("NotifyParser", "Not splittable line: " + line);
+                // Log.d("NotifyParser", "Not splittable line: " + line);
             }
         }
 

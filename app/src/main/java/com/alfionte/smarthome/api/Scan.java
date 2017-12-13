@@ -1,5 +1,7 @@
 package com.alfionte.smarthome.api;
 
+import android.util.Log;
+
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -35,6 +37,8 @@ public class Scan {
                 DatagramPacket receivePacket = new DatagramPacket(buffer, buffer.length);
 
                 datagramSocket.receive(receivePacket);
+                Log.d("Scan", "receivePacket: " + new String(receivePacket.getData()));
+
                 observableEmitter.onNext(receivePacket);
 
                 datagramSocket.disconnect();

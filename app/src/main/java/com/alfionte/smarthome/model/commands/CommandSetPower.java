@@ -23,7 +23,6 @@ public class CommandSetPower extends Command {
         setParams(params);
     }
 
-
     public enum PowerMode {
 
         NORMAL(0),  // default

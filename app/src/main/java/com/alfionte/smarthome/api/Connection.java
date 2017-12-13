@@ -1,5 +1,7 @@
 package com.alfionte.smarthome.api;
 
+import android.util.Log;
+
 import com.alfionte.smarthome.model.commands.Command;
 
 import java.io.BufferedOutputStream;
@@ -27,13 +29,15 @@ public class Connection {
                 final OutputStream outputStream = socket.getOutputStream();
 
                 final BufferedOutputStream stream = new BufferedOutputStream(outputStream);
-                stream.write((commandModel.toMessageString() + "\r\n").getBytes());
+                stream.write((commandModel.toMessageString()).getBytes());
                 stream.flush();
 
 
                 final InputStream inputStream = socket.getInputStream();
                 final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
                 final String socketReceive = bufferedReader.readLine();
+
+                Log.d("TCP receive","socketReceive "+ socketReceive);
 
                 emitter.onNext(socketReceive);
                 emitter.onComplete();
